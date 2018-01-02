@@ -1,14 +1,17 @@
 import React from 'react';
 import {
   View,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
+import environment from '../../tools/createRelayEnvironment';
 import {
   LoginButton,
   EmailInput,
   PasswordInput,
   LoginHeader
 } from './components';
+import { AddPushTokenMutation } from '../../mutations';
 
 const LOGIN_SERVER_URI = 'https://api.savo.nililia.com/account/auth';
 
@@ -22,8 +25,17 @@ export default class Login extends React.Component {
     }
   }
 
+  handleAddPushToken = (token) => {
+    AddPushTokenMutation.commit(
+      environment,
+      token,
+      (Platform.OS === 'android') ? "FCM" : "APN"
+    );
+  }
+
   completeLoginAction = (accessToken) => {
     AsyncStorage.setItem('@LoginAccessToken:key', accessToken);
+    this.handleAddPushToken(accessToken);
     this.props.navigation.navigate('Main');
   }
 
