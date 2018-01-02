@@ -10,7 +10,6 @@
     "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf node_modules/ && npm cache clean && npm install && npm start -- --reset-cache"
   },
   "dependencies": {
-    "firebase": "^4.8.1",
     "react": "16.0.0",
     "react-native": "0.51.0",
     "react-native-elements": "^0.18.5",
