@@ -1,0 +1,384 @@
+schema {
+  query: RootQuery
+  mutation: RootMutation
+  subscription: RootSubscription
+}
+
+type ActivatedChatbot implements Node {
+  id: ID!
+  chatbot: Chatbot
+}
+
+type ActivatedChatbotConnection {
+  pageInfo: PageInfo
+  edges: [ActivatedChatbotEdge]
+}
+
+type ActivatedChatbotEdge {
+  node: ActivatedChatbot!
+  cursor: String!
+}
+
+input ActiveChatbotInput {
+  id: ID!
+}
+
+type ActiveChatbotPayload {
+  activatedChatbotEdge: ActivatedChatbotEdge
+  storeChatbotEdge: StoreChatbotEdge
+  clientMutationId: String
+}
+
+input addPushTokenInput {
+  token: String!
+  type: PushType!
+  clientMutationId: String
+}
+
+type addPushTokenPayload {
+  token: String!
+  type: PushType!
+  clientMutationId: String
+}
+
+type Chatbot implements Node, ChatMessageSender {
+  id: ID!
+  name: String
+  description: String
+  descriptionDetail: String
+  createdAt: String
+  updatedAt: String
+  deletedAt: String
+  chatMessages(after: String, first: Int, before: String, last: Int): ChatMessageConnection
+  notifications(after: String, first: Int, before: String, last: Int): ChatbotNotificationConnection
+  Creater: User
+}
+
+type ChatbotConnection {
+  pageInfo: PageInfo
+  edges: [ChatbotEdge]
+}
+
+type ChatbotEdge {
+  node: Chatbot!
+  cursor: String!
+}
+
+type ChatbotNotification implements Node {
+  id: ID!
+  content: String
+  chatbot: Chatbot
+  createdAt: String
+  updatedAt: String
+}
+
+type ChatbotNotificationConnection {
+  pageInfo: PageInfo
+  edges: [ChatbotNotificationEdge]
+}
+
+type ChatbotNotificationEdge {
+  node: ChatbotNotification!
+  cursor: String!
+}
+
+type ChatbotRating implements Node {
+  id: ID!
+  rating: Int!
+  createdAt: String
+  updatedAt: String
+  deletedAt: String
+  Chatbot: Chatbot!
+  User: User!
+}
+
+type ChatbotRatingConnection {
+  pageInfo: PageInfo
+  edges: [ChatbotRatingEdge]
+}
+
+type ChatbotRatingEdge {
+  node: ChatbotRating!
+  cursor: String!
+}
+
+type ChatMessage implements Node {
+  id: ID!
+  content: String
+  senderIsUser: Boolean
+  chatbot: Chatbot
+  createdAt: String
+  updatedAt: String
+}
+
+type ChatMessageConnection {
+  pageInfo: PageInfo
+  edges: [ChatMessageEdge]
+}
+
+type ChatMessageEdge {
+  node: ChatMessage!
+  cursor: String!
+}
+
+interface ChatMessageSender {
+  # The id of the object.
+  id: ID!
+}
+
+input CreateChatbotInput {
+  name: String!
+  description: String
+  descriptionDetail: String
+  publicKey: String
+  chatbotApiUrl: String
+  clientMutationId: String
+}
+
+input CreateChatbotNotificationInput {
+  # Chatbot ID
+  id: ID!
+  content: String!
+  clientMutationId: String
+}
+
+type CreateChatbotNotificationPayload {
+  ChatbotNotificationEdge: ChatbotNotificationEdge
+  clientMutationId: String
+}
+
+type CreateChatbotPayload {
+  registeredChatbotEdge: RegisteredChatbotEdge!
+  clientMutationId: String
+}
+
+input CreateChatMessageInput {
+  # Chatbot ID
+  id: ID!
+
+  # 사용자가 쓴 모든 텍스트
+  fullText: String!
+
+  # 챗봇에게 전달할 명령 텍스트
+  commendText: String!
+  clientMutationId: String
+}
+
+type CreateChatMessagePayload {
+  ChatMessageEdges: [ChatMessageEdge]
+  clientMutationId: String
+}
+
+type DashboardItem {
+  date: String
+  count: Int
+  genderValues: [DashboardItemValue]
+  ageValues: [DashboardItemValue]
+}
+
+type DashboardItemValue {
+  type: String
+  count: Int
+}
+
+type DashboardRatingItem {
+  date: String
+  count: Int
+  ratingCount: [DashboardRatingItemCount]
+  genderValues: [DashboardRatingItemValue]
+  ageValues: [DashboardRatingItemValue]
+}
+
+type DashboardRatingItemCount {
+  rating: Int
+  count: Int
+}
+
+type DashboardRatingItemValue {
+  type: String
+
+  # 평균 평점
+  rating: Float
+
+  # 평점 수
+  count: Int
+  ratingCount: [DashboardRatingItemCount]
+}
+
+input DeactiveChatbotInput {
+  id: ID!
+}
+
+type DeactiveChatbotPayload {
+  # ActivateChatbot ID
+  deactivateChatbotId: ID
+  storeChatbotEdge: StoreChatbotEdge!
+  clientMutationId: String
+}
+
+input DeleteChatbotInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteChatbotPayload {
+  deletedChatbotId: ID
+  clientMutationId: String
+}
+
+input DeleteChatbotScreenshotInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteChatbotScreenshotPayload {
+  deletedChatbotScreenshotId: ID
+  clientMutationId: String
+}
+
+input deletePushTokenInput {
+  token: String!
+  type: PushType!
+}
+
+type deletePushTokenPayload {
+  token: String!
+  type: PushType!
+  clientMutationId: String
+}
+
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+enum PushType {
+  FCM
+  APN
+}
+
+type RegisteredChatbot implements Node {
+  id: ID!
+  chatbot: Chatbot
+  chatbotApiUrl: String
+  publicKey: String
+  dashboardActives(startDate: String, endDate: String): [DashboardItem]
+  dashboardDeactives(startDate: String, endDate: String): [DashboardItem]
+  dashboardChatMessage(startDate: String, endDate: String): [DashboardItem]
+  dashboardRatings(startDate: String, endDate: String): [DashboardRatingItem]
+}
+
+type RegisteredChatbotConnection {
+  pageInfo: PageInfo
+  edges: [RegisteredChatbotEdge]
+}
+
+type RegisteredChatbotEdge {
+  node: RegisteredChatbot!
+  cursor: String!
+}
+
+type RootMutation {
+  deletePushToken(input: deletePushTokenInput): deletePushTokenPayload
+  addPushToken(input: addPushTokenInput): addPushTokenPayload
+  updateChatbot(input: UpdateChatbotInput): UpdateChatbotPayload
+  deleteChatbotScreenshot(input: DeleteChatbotScreenshotInput): DeleteChatbotScreenshotPayload
+  setChatbotRating(input: SetChatbotRatingInput): SetChatbotRatingPayload
+  createChatbotNotification(input: CreateChatbotNotificationInput): CreateChatbotNotificationPayload
+  deleteChatbot(input: DeleteChatbotInput): DeleteChatbotPayload
+  deactiveChatbot(input: DeactiveChatbotInput): DeactiveChatbotPayload
+  createChatbot(input: CreateChatbotInput): CreateChatbotPayload
+  activeChatbot(input: ActiveChatbotInput): ActiveChatbotPayload
+  createChatMessage(input: CreateChatMessageInput): CreateChatMessagePayload
+}
+
+type RootQuery {
+  node(id: ID!): Node
+  viewer: User
+  storeChatbots(search: String, after: String, first: Int, before: String, last: Int): StoreChatbotConnection
+  relay: RootQuery
+}
+
+type RootSubscription {
+  chatMessageCreated(accessToken: String): CreateChatMessagePayload
+  chatbotCreated(accessToken: String): CreateChatbotPayload
+}
+
+type Screenshot {
+  id: ID!
+  image: String
+  thumbnail: String
+}
+
+input SetChatbotRatingInput {
+  # Chatbot의 ID
+  id: ID!
+
+  # 1 ~ 5 정수
+  rating: Int!
+  clientMutationId: String
+}
+
+type SetChatbotRatingPayload {
+  chatbotRatingEdge: ChatbotRatingEdge!
+  clientMutationId: String
+}
+
+type StoreChatbot implements Node {
+  id: ID!
+  active: Boolean
+  averageRating: Float
+  chatbot: Chatbot
+}
+
+type StoreChatbotConnection {
+  pageInfo: PageInfo
+  edges: [StoreChatbotEdge]
+}
+
+type StoreChatbotEdge {
+  node: StoreChatbot!
+  cursor: String!
+}
+
+input UpdateChatbotInput {
+  id: ID!
+  name: String
+  description: String
+  descriptionDetail: String
+  publicKey: String
+  chatbotApiUrl: String
+  clientMutationId: String
+}
+
+type UpdateChatbotPayload {
+  registeredChatbotEdge: RegisteredChatbotEdge!
+  clientMutationId: String
+}
+
+type User implements Node, ChatMessageSender {
+  id: ID!
+  username: String
+  email: String
+  gender: String
+  birthday: String
+
+  # 등록한 챗봇 리스트
+  registeredChatbots(after: String, first: Int, before: String, last: Int): RegisteredChatbotConnection
+
+  # 활성화한 챗봇 리스트
+  activatedChatbots(after: String, first: Int, before: String, last: Int): ActivatedChatbotConnection
+
+  # 활성화한 챗봇 리스트
+  chatMessages(after: String, first: Int, before: String, last: Int): ChatMessageConnection
+  createdAt: String
+  updatedAt: String
+  deletedAt: String
+}
