@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "675709212976",
+    "firebase_url": "https://savo-59300.firebaseio.com",
+    "project_id": "savo-59300",
+    "storage_bucket": "savo-59300.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675709212976:android:4430b24d7a1c5fe5",
+        "android_client_info": {
+          "package_name": "com.nililia.savo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675709212976-r9vbp94dfnjm3qlbbaqru7tc1i98p558.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkMKv9-C4JQ-_d1YLPdLcMRtjvIIX8h9k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
