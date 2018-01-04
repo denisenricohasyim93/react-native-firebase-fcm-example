@@ -53,3 +53,7 @@ buck-out/
 */fastlane/screenshots
 
 # __generated__/
+__generated__/
+
+# pods
+Pods/
