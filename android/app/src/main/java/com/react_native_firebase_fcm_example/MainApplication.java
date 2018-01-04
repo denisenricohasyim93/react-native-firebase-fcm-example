@@ -1,4 +1,4 @@
-package com.react_native_firebase_fcm_example;
+package com.nililia.savo;
 
 import android.app.Application;
 
